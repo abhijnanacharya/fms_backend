@@ -1,45 +1,66 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
+import {
+  ApiTags,
   ApiOperation,
+  ApiCreatedResponse,
+  ApiBadRequestResponse,
+  ApiBody,
 } from '@nestjs/swagger';
+
+import { MaintenanceDataDto } from './dto/maintenance.dto';
+import { MaintenanceService } from './maintenance.service';
 import { DatabaseService } from 'src/database/database.service';
 
-
 @Controller('maintenance')
+@ApiTags('maintenance')
 export class MaintenanceController {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly maintenanceService: MaintenanceService,
+  ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Add a new trip' })
-  @ApiCreatedResponse({ description: 'The trip has been successfully added.' })
+  @ApiOperation({ summary: 'Add a new maintenance record' })
+  @ApiCreatedResponse({
+    description: 'The maintenance record has been successfully added.',
+  })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async addTrip(@Body() MaintenanceType: MaintenanceTypeDTO) {
+  async addMaintenance(@Body() maintenanceData: MaintenanceDataDto) {
+    const query = `
+      INSERT INTO maintenance (maintenance_id, maintain_date, description, cost, vehicle_id, maintenance_type_id)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    const params = [
+      maintenanceData.maintenance_id,
+      maintenanceData.maintain_date,
+      maintenanceData.description,
+      maintenanceData.cost,
+      maintenanceData.vehicle_id,
+      maintenanceData.maintenance_type_id,
+    ];
+
     try {
-      const results = await this.databaseService.callAddTripProcedure(
-        tripData.trip_id,
-        tripData.start_date,
-        tripData.end_date,
-        tripData.distance,
-        tripData.fuel_expense,
-        tripData.vehicle_id,
-        tripData.driver_id,
-        tripData.trip_type_id,
-      );
-      return results;
+      const result = await this.databaseService.executeQuery(query, params);
+      return { message: 'Maintenance record added successfully', result };
     } catch (error) {
-      // Handle the error appropriately
       return { error: error.message };
     }
   }
 
   @Get()
-  @ApiOperation({ summary: 'Gets all trip' })
+  @ApiOperation({ summary: 'Gets all maintenance records' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async getAllTrips() {
+  async getAllMaintenance() {
     try {
-      const query = 'SELECT * FROM trip';
+      const query = 'SELECT * FROM maintenance';
       const results = await this.databaseService.executeQuery(query);
       return results;
     } catch (error) {
@@ -48,11 +69,11 @@ export class MaintenanceController {
   }
 
   @Get('/:id')
-  @ApiOperation({ summary: 'Gets trip by id ' })
+  @ApiOperation({ summary: 'Gets maintenance record by ID' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async getTripById(@Param('id') id: string) {
+  async getMaintenanceById(@Param('id') id: string) {
     try {
-      const query = `SELECT * FROM trip t where t.trip_id=${id}`;
+      const query = `SELECT * FROM maintenance m where m.maintenance_id=${id}`;
       const results = await this.databaseService.executeQuery(query);
       return results;
     } catch (error) {
@@ -61,41 +82,44 @@ export class MaintenanceController {
   }
 
   @Patch('/:id')
-  @ApiOperation({ summary: 'Update trip by id' })
+  @ApiOperation({ summary: 'Update maintenance record by ID' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  @ApiBody({ type: TripDataDto })
-  async updateTripById(
+  @ApiBody({ type: MaintenanceDataDto })
+  async updateMaintenanceById(
     @Param('id') id: string,
-    @Body() updatedTripData: Partial<TripDataDto>, // Replace 'any' with the appropriate type for your Trip object
+    @Body() updatedMaintenanceData: Partial<MaintenanceDataDto>,
   ) {
     try {
-      const updatedTrip = await this.tripService.updateTrip(
-        id,
-        updatedTripData,
-      );
+      const updatedMaintenance =
+        await this.maintenanceService.updateMaintenance(
+          id,
+          updatedMaintenanceData,
+        );
 
-      if (!updatedTrip) {
-        return { error: 'No fields to update or trip not found' };
+      if (!updatedMaintenance) {
+        return { error: 'No fields to update or maintenance record not found' };
       }
 
-      return updatedTrip;
+      return updatedMaintenance;
     } catch (error) {
       return { error: error.message };
     }
   }
+
   @Delete('/:id')
-  @ApiOperation({ summary: 'Delete trip by id' })
+  @ApiOperation({ summary: 'Delete maintenance record by ID' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async deleteTripById(@Param('id') id: string) {
+  async deleteMaintenanceById(@Param('id') id: string) {
     try {
-      const deletionResult = await this.tripService.deleteTrip(id);
+      const deletionResult =
+        await this.maintenanceService.deleteMaintenance(id);
 
       if (deletionResult.error) {
         console.log(deletionResult.error);
         return { error: deletionResult.error };
       }
 
-      return { message: 'Trip deleted successfully' };
+      return { message: 'Maintenance record deleted successfully' };
     } catch (error) {
       return { error: error.message };
     }

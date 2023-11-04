@@ -1,4 +1,3 @@
-// src/trip/trip.controller.ts
 import {
   Controller,
   Post,
@@ -82,7 +81,7 @@ export class TripController {
   @ApiBody({ type: TripDataDto })
   async updateTripById(
     @Param('id') id: string,
-    @Body() updatedTripData: Partial<TripDataDto>, // Replace 'any' with the appropriate type for your Trip object
+    @Body() updatedTripData: Partial<TripDataDto>,
   ) {
     try {
       const updatedTrip = await this.tripService.updateTrip(
@@ -107,7 +106,7 @@ export class TripController {
       const deletionResult = await this.tripService.deleteTrip(id);
 
       if (deletionResult.error) {
-        console.log(deletionResult.error)
+        console.log(deletionResult.error);
         return { error: deletionResult.error };
       }
 
