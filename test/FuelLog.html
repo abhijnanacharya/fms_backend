@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Driver Data</title>
+    <title>Fuel Log Data</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -22,7 +22,7 @@
       button:hover {
         background-color: #0056b3;
       }
-      #driverList {
+      #fuelLogList {
         margin: 20px;
       }
       table {
@@ -94,56 +94,24 @@
   </head>
   <body>
     <div class="navbar">
-      <a href="Driver.html" id="driverTab">Driver</a>
-      <a href="Trip.html" id="tripTab">Trip</a>
-      <a href="FuelLog.html" id="fuelLogTab">FuelLog</a>
-      <a href="Maintenance.html" id="maintenanceTab">Maintenance</a>
-      <a href="Location.html" id="locationTab">Location</a>
-      <a href="Vehicle.html" id="vehicleTab">Vehicle</a>
-      <a href="MaintenanceType.html" id="maintenanceTypeTab">Maintenance Type</a>
-      <a href="VehicleType.html" id="vehicleTypeTab">Vehicle Type</a>
-      <a href="TripType.html" id="tripTypeTab">Trip Type</a>
-
+        <a href="Driver.html" id="driverTab">Driver</a>
+        <a href="Trip.html" id="tripTab">Trip</a>
+        <a href="FuelLog.html" id="fuelLogTab">FuelLog</a>
+        <a href="Maintenance.html" id="maintenanceTab">Maintenance</a>
+        <a href="Location.html" id="locationTab">Location</a>
+        <a href="Vehicle.html" id="vehicleTab">Vehicle</a>
+        <a href="MaintenanceType.html" id="maintenanceTypeTab">Maintenance Type</a>
+        <a href="VehicleType.html" id="vehicleTypeTab">Vehicle Type</a>
+        <a href="TripType.html" id="tripTypeTab">Trip Type</a>
 
     </div>
-    <h1>Driver Data</h1>
+    <h1>Fuel Log Data</h1>
     <button id="fetchButton">Fetch Data</button>
-    <div id="driverList"></div>
-
-    <button type="button" id="createDriverButton">Create a New Driver</button>
-     <!-- Create a modal for the "Create New Driver" form -->
-     <div id="createDriverModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Create a New Driver</h2>
-            <form id="driverForm">
-                <!-- Add the form fields for creating a new trip here -->
-                <label for="driver_id">Driver ID:</label>
-                <input type="text" id="driver_id" name="driver_id"><br>
-
-                <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name"><br>
-
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name"><br>
-
-                <label for="license_number">License Number:</label>
-                <input type="number" id="license_number" name="license_number"><br>
-
-                <label for="contact_number">Contact Number:</label>
-                <input type="number" id="contact_number" name="contact_number"><br>
-
-                <label for="trip_id">Trip ID:</label>
-                <input type="number" id="trip_id" name="trip_id"><br>
-
-                <button type="button" id="submitDriver">Submit</button>
-            </form>
-        </div>
-    </div> 
+    <div id="fuelLogList"></div>
     <script>
       // Function to fetch and display the JSON data in a table
       function fetchData() {
-        fetch("http://localhost:3000/driver", {
+        fetch("http://localhost:3000/fuellog", {
           method: "GET",
           headers: {
             accept: "*/*",
@@ -151,11 +119,11 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            const driverList = document.getElementById("driverList");
-            driverList.innerHTML = ""; // Clear previous data
+            const fuelLogList = document.getElementById("fuelLogList");
+            fuelLogList.innerHTML = ""; // Clear previous data
 
             if (data.length === 0) {
-              driverList.innerHTML = "<p>No data available.</p>";
+              fuelLogList.innerHTML = "<p>No data available.</p>";
             } else {
               const table = document.createElement("table");
               const headerRow = table.insertRow(0);
@@ -165,15 +133,15 @@
                 headerRow.appendChild(th);
               }
 
-              data.forEach((driver, index) => {
+              data.forEach((fuellog, index) => {
                 const row = table.insertRow(index + 1);
-                for (const key in driver) {
+                for (const key in fuellog) {
                   const cell = row.insertCell();
-                  cell.textContent = driver[key];
+                  cell.textContent = fuellog[key];
                 }
               });
 
-              driverList.appendChild(table);
+              fuelLogList.appendChild(table);
             }
           })
           .catch((error) => {
