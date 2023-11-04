@@ -154,13 +154,13 @@ function fetchTripData() {
         }
     })
     .then(response => response.json())
-    .then(tripData => {
-        data = tripData;  // Assign the fetched data to the data variable
-        const tripList = document.getElementById('tripList');
-        tripList.innerHTML = ''; // Clear previous data
+    .then(driverData => {
+        data = driverData;  // Assign the fetched data to the data variable
+        const driverList = document.getElementById('driverList');
+        driverList.innerHTML = ''; // Clear previous data
 
         if (data.length === 0) {
-            tripList.innerHTML = '<p>No data available.</p>';
+          driverList.innerHTML = '<p>No data available.</p>';
         } else {
             const table = document.createElement('table');
             const headerRow = table.insertRow(0);
@@ -179,10 +179,10 @@ function fetchTripData() {
 
                 // Add the "Delete Trip" button to the row
                 const deleteButtonCell = row.insertCell();
-                deleteButtonCell.appendChild(createDeleteButton(trip.trip_id));
+                deleteButtonCell.appendChild(createDeleteButton(trip.driver_id));
             });
 
-            tripList.appendChild(table);
+            driverList.appendChild(table);
         }
     })
     .catch(error => {
@@ -215,7 +215,7 @@ fetchButton.addEventListener('click', fetchTripData);
                 tripData[key] = value;
             });
             tripData.trip_id=Math.floor(Math.random() * 1000);
-            fetch('http://localhost:3000/trips', {
+            fetch('http://localhost:3000/driver', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -233,20 +233,21 @@ fetchButton.addEventListener('click', fetchTripData);
             });
         });
         // Function to create a "Delete Trip" button for each row in the table
-function createDeleteButton(tripId) {
+function createDeleteButton(driverId) {
     const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete Trip';
+    deleteButton.textContent = 'Delete Driver';
     deleteButton.addEventListener('click', () => {
-        if (confirm(`Are you sure you want to delete this trip? ${tripId}`)) {
+      console.log(driverId);
+        if (confirm(`Are you sure you want to delete this Driver? ${driverId}`)) {
             // Call the delete API with the tripId
-            fetch(`http://localhost:3000/trips/${tripId}`, {
+            fetch(`http://localhost:3000/driver/${driverId}`, {
                 method: 'DELETE'
             })
             .then(response => {
                 if (response.status === 204) {
                     // Remove the row from the table on success
                     const table = document.querySelector('table');
-                    const row = document.querySelector(`tr[data-tripid="${tripId}"]`);
+                    const row = document.querySelector(`tr[data-tripid="${driverId}"]`);
                     table.deleteRow(row.rowIndex);
                 } else {
                     console.error('Error deleting trip');
