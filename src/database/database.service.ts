@@ -9,7 +9,7 @@ export class DatabaseService {
     this.connection = mysql.createPool({
       host: 'localhost',
       user: 'root',
-      password: 'admin', //Replace with your own password 
+      password: '0514', //Replace with your own password 
       database: 'fleet_management',
     });
   }
