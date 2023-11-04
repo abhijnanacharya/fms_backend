@@ -22,7 +22,7 @@
       button:hover {
         background-color: #0056b3;
       }
-      #maintenanceList {
+      #tripList {
         margin: 20px;
       }
       table {
@@ -201,9 +201,9 @@ fetchButton.addEventListener('click', fetchTripData);
        // Function to create a "Delete Trip" button for each row in the table
 function createDeleteButton(tripId) {
    const deleteButton = document.createElement('button');
-   deleteButton.textContent = 'Delete Trip';
+   deleteButton.textContent = 'Delete';
    deleteButton.addEventListener('click', () => {
-       if (confirm(`Are you sure you want to delete this trip? ${tripId}`)) {
+       if (confirm(`Are you sure you want to delete this? ${tripId}`)) {
            // Call the delete API with the tripId
            fetch(`http://localhost:3000/maintenance/${tripId}`, {
                method: 'DELETE'
