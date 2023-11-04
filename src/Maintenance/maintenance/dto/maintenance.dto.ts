@@ -1,26 +1,22 @@
 import { IsDate, IsInt, IsDecimal, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TripDataDto {
+export class MaintenanceDataDto {
   @ApiProperty()
   @IsInt()
-  trip_id: number;
+  maintenance_id: number;
 
   @ApiProperty()
   @IsDate()
-  start_date: Date;
+  maintain_date: Date;
 
   @ApiProperty()
-  @IsDate()
-  end_date: Date;
-
-  @ApiProperty()
-  @IsDecimal({ decimal_digits: '2' })
-  distance: number;
+  @IsString()
+  description: string;
 
   @ApiProperty()
   @IsDecimal({ decimal_digits: '2' })
-  fuel_expense: number;
+  cost: number;
 
   @ApiProperty()
   @IsString()
@@ -28,9 +24,5 @@ export class TripDataDto {
 
   @ApiProperty()
   @IsInt()
-  driver_id: number;
-
-  @ApiProperty()
-  @IsInt()
-  trip_type_id: number;
+  maintenance_type_id: number;
 }
