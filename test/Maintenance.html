@@ -190,12 +190,12 @@ fetchButton.addEventListener('click', fetchTripData);
            })
            .then(response => response.json())
            .then(data => {
-               console.log('New trip created:', data);
+               console.log('New created:', data);
                createTripModal.style.display = 'none';
-               window.alert("NEW trip created")
+               window.alert("NEW created")
            })
            .catch(error => {
-               console.error('Error creating trip:', error);
+               console.error('Error creating:', error);
            });
        });
        // Function to create a "Delete Trip" button for each row in the table
@@ -215,11 +215,11 @@ function createDeleteButton(tripId) {
                    const row = document.querySelector(`tr[data-tripid="${tripId}"]`);
                    table.deleteRow(row.rowIndex);
                } else {
-                   console.error('Error deleting trip');
+                   console.error('Error deleting');
                }
            })
            .catch(error => {
-               console.error('Error deleting trip:', error);
+               console.error('Error deleting:', error);
            });
        }
    });
