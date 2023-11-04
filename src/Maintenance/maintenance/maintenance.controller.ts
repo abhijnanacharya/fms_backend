@@ -86,7 +86,7 @@ export class MaintenanceController {
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiBody({ type: MaintenanceDataDto })
   async updateMaintenanceById(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updatedMaintenanceData: Partial<MaintenanceDataDto>,
   ) {
     try {

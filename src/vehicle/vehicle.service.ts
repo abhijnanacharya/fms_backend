@@ -46,6 +46,7 @@ export class VehicleService {
   }
 
   async updateVehicle(id: string, updatedVehicleData: Partial<VehicleDataDto>) {
+  console.log(id);
     const updatedFields = Object.keys(updatedVehicleData);
 
     if (updatedFields.length === 0) {
@@ -62,7 +63,7 @@ export class VehicleService {
         ${updateClause.join(', ')}
       WHERE vehicle_id = ?
     `;
-
+    console.log(query);
     const values = [
       ...updatedFields.map((field) => updatedVehicleData[field]),
       id,

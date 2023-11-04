@@ -71,12 +71,13 @@ export class VehicleController {
     }
   }
 
-  @Get('/:id')
+  @Get('/:vehicle_id')
   @ApiOperation({ summary: 'Gets vehicle by ID' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async getVehicleById(@Param('id') id: string) {
+  async getVehicleById(@Param('vehicle_id') vehicle_id: string) {
     try {
-      const query = `SELECT * FROM vehicle v where v.vehicle_id=${id}`;
+      const query = `SELECT * FROM Vehicle v where v.vehicle_id="${vehicle_id}"`;
+      console.log(query);
       const results = await this.databaseService.executeQuery(query);
       return results;
     } catch (error) {

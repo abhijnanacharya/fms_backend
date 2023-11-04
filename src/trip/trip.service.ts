@@ -56,7 +56,9 @@ export class TripService {
     ];
     const updatedTrip = await this.databaseService.executeQuery(query, values);
 
-    return updatedTrip;
+    if (updatedTrip.affectedRows >= 1) {
+      return { message: 'Sucessfully Edited Trip' };
+    }
   }
 
   async deleteTrip(id: string) {

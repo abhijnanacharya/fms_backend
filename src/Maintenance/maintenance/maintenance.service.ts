@@ -7,7 +7,7 @@ export class MaintenanceService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async updateMaintenance(
-    id: string,
+    id: number,
     updatedMaintenanceData: Partial<MaintenanceDataDto>,
   ) {
     const updatedFields = Object.keys(updatedMaintenanceData);
@@ -21,16 +21,18 @@ export class MaintenanceService {
     });
 
     const query = `
-        UPDATE Maintenance
-        SET
-          ${updateClause.join(', ')}
-        WHERE maintenance_id = ?
-      `;
+      UPDATE maintenance
+      SET
+        ${updateClause.join(', ')}
+      WHERE maintenance_id = ?
+    `;
 
     const values = [
       ...updatedFields.map((field) => updatedMaintenanceData[field]),
-      id,
+      id, // Include the id value in the values array
     ];
+
+    console.log(query, values);
 
     const updatedMaintenance = await this.databaseService.executeQuery(
       query,
