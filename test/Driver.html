@@ -100,9 +100,9 @@
       <a href="Maintenance.html" id="maintenanceTab">Maintenance</a>
       <a href="Location.html" id="locationTab">Location</a>
       <a href="Vehicle.html" id="vehicleTab">Vehicle</a>
-      <a href="MaintenanceType.html" id="maintenanceTypeTab">Maintenance Type</a>
+      <!--<a href="MaintenanceType.html" id="maintenanceTypeTab">Maintenance Type</a>
       <a href="VehicleType.html" id="vehicleTypeTab">Vehicle Type</a>
-      <a href="TripType.html" id="tripTypeTab">Trip Type</a>
+      <a href="TripType.html" id="tripTypeTab">Trip Type</a>-->
 
 
     </div>
@@ -116,7 +116,7 @@
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>Create a New Driver</h2>
-            <form id="driverForm">
+            <form id="tripForm">
                 <!-- Add the form fields for creating a new trip here -->
                 <label for="driver_id">Driver ID:</label>
                 <input type="text" id="driver_id" name="driver_id"><br>
@@ -143,42 +143,47 @@
     <script>
       // Function to fetch and display the JSON data in a table
       function fetchData() {
-        fetch("http://localhost:3000/driver", {
-          method: "GET",
-          headers: {
-            accept: "*/*",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            const driverList = document.getElementById("driverList");
-            driverList.innerHTML = ""; // Clear previous data
+    fetch('http://localhost:3000/driver', {
+        method: 'GET',
+        headers: {
+            'accept': '*/*'
+        }
+    })
+    .then(response => response.json())
+    .then(tripData => {
+        data = tripData;  // Assign the fetched data to the data variable
+        const tripList = document.getElementById('tripList');
+        tripList.innerHTML = ''; // Clear previous data
 
-            if (data.length === 0) {
-              driverList.innerHTML = "<p>No data available.</p>";
-            } else {
-              const table = document.createElement("table");
-              const headerRow = table.insertRow(0);
-              for (const key in data[0]) {
-                const th = document.createElement("th");
+        if (data.length === 0) {
+            tripList.innerHTML = '<p>No data available.</p>';
+        } else {
+            const table = document.createElement('table');
+            const headerRow = table.insertRow(0);
+            for (const key in data[0]) {
+                const th = document.createElement('th');
                 th.textContent = key;
                 headerRow.appendChild(th);
-              }
-
-              data.forEach((driver, index) => {
-                const row = table.insertRow(index + 1);
-                for (const key in driver) {
-                  const cell = row.insertCell();
-                  cell.textContent = driver[key];
-                }
-              });
-
-              driverList.appendChild(table);
             }
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-          });
+
+            data.forEach((trip, index) => {
+                const row = table.insertRow(index + 1);
+                for (const key in trip) {
+                    const cell = row.insertCell();
+                    cell.textContent = trip[key];
+                }
+
+                // Add the "Delete Trip" button to the row
+                const deleteButtonCell = row.insertCell();
+                deleteButtonCell.appendChild(createDeleteButton(trip.trip_id));
+            });
+
+            tripList.appendChild(table);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
       }
 
       // Add a click event listener to the button
