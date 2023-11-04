@@ -5,9 +5,10 @@ import { DatabaseService } from './database/database.service';
 import { TripModule } from './trip/trip.module';
 import { MaintenanceModule } from './Maintenance/maintenance/maintenance.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { FuelLogModule } from './fuel-log/fuel-log.module';
 
 @Module({
-  imports: [TripModule, MaintenanceModule, VehicleModule],
+  imports: [TripModule, MaintenanceModule, VehicleModule, FuelLogModule],
   controllers: [AppController],
   providers: [AppService, DatabaseService],
 })
