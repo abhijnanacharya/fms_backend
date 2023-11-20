@@ -218,38 +218,7 @@
             });
         }
 
-        // Function to create a table
-        function createTable(data, tableId) {
-            var table = document.getElementById(tableId);
-            var thead = document.createElement('thead');
-            var tbody = document.createElement('tbody');
 
-            // Create table header
-            var headerRow = document.createElement('tr');
-            Object.keys(data[0]).forEach(key => {
-                var th = document.createElement('th');
-                th.textContent = key;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            // Create table rows
-            data.forEach(rowData => {
-                var row = document.createElement('tr');
-                Object.values(rowData).forEach(value => {
-                    var td = document.createElement('td');
-                    td.textContent = value;
-                    row.appendChild(td);
-                });
-                tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-        }
-
-        // Function to create a pie chart
-        // Function to create a pie chart
 function createPieChart(data, chartId) {
     var labels = data.map(entry => entry.Vehicle_maintenance);
     var values = data.map(entry => entry.TOTAL_COST);
