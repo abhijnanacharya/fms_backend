@@ -84,7 +84,6 @@
 
             <div id="result2" class="result"></div>
             <canvas id="fuelExpenseChart" width="400" height="200"></canvas>
-            <table id="fuelExpenseTable"></table>
         </div>
     </div>
 
@@ -152,7 +151,6 @@
                     } else {
                         resultDiv2.innerHTML = `Data for ${yearInput}:`;
                         createBarChart(data, 'fuelExpenseChart');
-                        createTable(data, 'fuelExpenseTable');
                     }
                 })
                 .catch(error => {
