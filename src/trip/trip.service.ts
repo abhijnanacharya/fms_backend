@@ -7,7 +7,7 @@ export class TripService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async addTrip(
-    trip_id: number, // Added the trip_id parameter
+    trip_id: number, 
     start_date: Date,
     end_date: Date,
     distance: number,
@@ -18,7 +18,7 @@ export class TripService {
   ) {
     try {
       const result = await this.databaseService.callAddTripProcedure(
-        trip_id, // Updated to include trip_id
+        trip_id, 
         start_date,
         end_date,
         distance,

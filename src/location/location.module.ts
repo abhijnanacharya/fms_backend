@@ -5,6 +5,6 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Module({
   providers: [LocationService, DatabaseService],
-  controllers: [LocationController]
+  controllers: [LocationController],
 })
 export class LocationModule {}

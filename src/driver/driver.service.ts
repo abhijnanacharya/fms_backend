@@ -6,11 +6,9 @@ import { DriverDataDto } from './dto/driver.dto';
 export class DriverService {
   constructor(private readonly databaseService: DatabaseService) {} // Inject your database service or other dependencies here
 
-  // Implement your service methods here
 
   async updateDriver(id: string, updatedDriverData: Partial<DriverDataDto>) {
     const updatedFields = Object.keys(updatedDriverData);
-
     if (updatedFields.length === 0) {
       return null; // No fields to update
     }

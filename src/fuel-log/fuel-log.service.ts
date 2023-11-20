@@ -29,7 +29,10 @@ export class FuelLogService {
       id,
     ];
 
-    const updatedFuelLog = await this.databaseService.executeQuery(query, values);
+    const updatedFuelLog = await this.databaseService.executeQuery(
+      query,
+      values,
+    );
 
     if (updatedFuelLog.affectedRows >= 1) {
       return { message: 'Successfully Edited Fuel Log' };
@@ -44,7 +47,10 @@ export class FuelLogService {
 
     const values = [id];
 
-    const deletionResult = await this.databaseService.executeQuery(query, values);
+    const deletionResult = await this.databaseService.executeQuery(
+      query,
+      values,
+    );
 
     if (deletionResult.affectedRows > 0) {
       return { message: 'Fuel Log deleted successfully' };

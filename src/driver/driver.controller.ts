@@ -59,7 +59,7 @@ export class DriverController {
     description: 'The driver has been successfully added.',
   })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async addDriver(driverData: DriverDataDto) {
+  async addDriver(@Body() driverData: DriverDataDto) {
     try {
       // Define your SQL query for inserting the driver data into the database
       const query = `
