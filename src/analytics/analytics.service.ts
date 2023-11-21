@@ -53,4 +53,24 @@ ORDER BY quarter, start_date;
       return results;
     }
   }
+
+  async fuelCostAnalysis() {
+    const query = `SELECT
+    vehicle_id,
+    YEAR(fuel_log_date) AS year,
+    MONTH(fuel_log_date) AS month,
+    SUM(total_cost) AS total_fuel_cost
+  FROM
+    fleet_management.fuellog
+  GROUP BY
+    vehicle_id, YEAR(fuel_log_date), MONTH(fuel_log_date)
+  ORDER BY
+    vehicle_id, YEAR(fuel_log_date), MONTH(fuel_log_date);`;
+
+    const results = await this.databaseService.executeQuery(query);
+
+    if (results && results.length > 0) {
+      return results;
+    }
+  }
 }

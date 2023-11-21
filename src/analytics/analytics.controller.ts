@@ -73,4 +73,13 @@ export class AnalyticsController {
       throw new Error('An error occurred while fetching your data');
     }
   }
+  @Get('/fuelCost')
+  async fuelCostAnalysis() {
+    try {
+      const res = this.analyticsService.fuelCostAnalysis();
+      return res;
+    } catch (e) {
+      throw new Error('An error occurred while fetching your data');
+    }
+  }
 }
