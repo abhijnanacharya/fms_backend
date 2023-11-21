@@ -24,7 +24,7 @@ export class DriverController {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly driverService: DriverService,
-  ) {} // Inject the DriverService or your driver-related service
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all drivers' })

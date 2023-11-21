@@ -73,4 +73,22 @@ ORDER BY quarter, start_date;
       return results;
     }
   }
+
+  async fuelCostAnalysisByVehicleType() {
+    const query = `SELECT
+    COALESCE(VT.vehicle_type_id, 'Grand Total') AS vehicle_type_id,
+    SUM(T.fuel_expense) AS total_fuel_expense
+  FROM
+    fleet_management.trip T
+    JOIN fleet_management.vehicle V ON T.vehicle_id = V.vehicle_id
+    JOIN fleet_management.VehicleType VT ON V.vehicle_type_id = VT.vehicle_type_id
+  GROUP BY
+    VT.vehicle_type_id WITH ROLLUP;`;
+
+    const results = await this.databaseService.executeQuery(query);
+
+    if (results && results.length > 0) {
+      return results;
+    }
+  }
 }

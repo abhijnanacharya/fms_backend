@@ -9,7 +9,6 @@ export class AppController {
   async getAllDrivers() {
     const query = 'SELECT * FROM Driver';
     const results = await this.databaseService.executeQuery(query);
-    console.log(results);
     return results;
   }
 }
